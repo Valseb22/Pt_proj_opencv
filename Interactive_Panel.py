@@ -7,7 +7,9 @@ drawing_points=[0,0]
 def draw_contours(image, hsv_max, hsv_min ):
     global drawing_points
     ksize=(5, 5)
+
     frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
+    
     mask = cv2.inRange(frame_hsv, HSV_min, HSV_max)
     mask_erode = cv2.erode(mask, np.ones(ksize, np.uint8))
     contours, hierarchy= cv2.findContours(mask_erode, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -45,17 +47,14 @@ source = 2
 video_cap = cv2.VideoCapture(source)
 
 
-#yellow_hsv_min=(19,112,161)
-#yellow_hsv_max=(29,190,223)
 
-#HSV_max = yellow_hsv_max
-#HSV_min = yellow_hsv_min
-HSV_max=(43, 124, 215)
-HSV_min=(13, 50, 165)
+HSV_max=(72, 160, 102)
+HSV_min=(42, 84, 30)
 while 1:
     has_frame, frame = video_cap.read()
     if not has_frame:
       break
+    frame = cv2.flip(frame,1)
 
     erode = draw_contours(frame,HSV_max, HSV_min)
 
