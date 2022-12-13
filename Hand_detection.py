@@ -25,7 +25,7 @@ while True:
                 h, w, c = frame.shape
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 #print (id, cx, cy)
-                cv2.circle(frame,(cx, cy), 10, (139, 0, 0), cv2.FILLED)
+                cv2.circle(frame,(cx, cy), 10, (255, 255, 0), cv2.FILLED)
             mpDraw.draw_landmarks(frame, handlms, mpHands.HAND_CONNECTIONS)
 
     flipped_frame=cv2.flip(frame,1)

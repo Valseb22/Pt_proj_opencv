@@ -28,7 +28,7 @@ while True:
       break
 
     frame = detector.findHands(frame)
-    lmList= detector.findPosition(frame, draw = False)
+    lmList= detector.findPosition(frame,handNbr=1 ,draw = False)
 
     if len(lmList) != 0:
         x1, y1 = lmList[4][1], lmList[4][2]
@@ -42,6 +42,8 @@ while True:
 
         length = math.hypot(x2 - x1, y2 - y1)
         #print(length)
+
+
 
         if length<30:
             cv2.circle(frame, (cx, cy), 10, (255, 0, 0), cv2.FILLED)
