@@ -4,7 +4,7 @@ import numpy as np
 import math
 import time
 
-wCam, hCam = 1280, 720
+wCam, hCam = 1180, 720
 
 source = 2
 video_cap = cv2.VideoCapture(source)
