@@ -4,7 +4,7 @@ import Hand_detection_module as hdm
 import math
 
 # wCam, hCam = 1920, 1080
-wCam, hCam = 1280, 720
+wCam, hCam = 1080, 720
 
 
 
@@ -27,8 +27,9 @@ while True:
     if not has_frame:
       break
 
-    frame = detector.findHands(frame)
-    lmList= detector.findPosition(frame,handNbr=1 ,draw = False)
+    hands, frame = detector.boxHands(frame, box = False)
+    #lmList= detector.findPosition(frame,handNbr=1 ,draw = False) a débug, main droite: handNbr=1
+    lmList= detector.findPosition(frame,handNbr=0 ,draw = False)
 
     if len(lmList) != 0:
         x1, y1 = lmList[4][1], lmList[4][2]
@@ -54,7 +55,7 @@ while True:
 
         speed= np.interp(length, [30,300], [minSpeed, maxSpeed])
         speedBar= np.interp(length, [30,300], [335, 75])
-        print(speed)
+        #print(speed)
 
     cv2.rectangle(frame, (75, 75), (125, 335), (0, 255, 0), 3)
     cv2.rectangle(frame, (75, int(speedBar) ), (125, 335), (0, 255, 255), cv2.FILLED)
@@ -63,6 +64,7 @@ while True:
 
     fliped_frame = cv2.flip(frame,1)
     cv2.imshow("frame", fliped_frame)
+    #cv2.imshow("speed Control", frame)
     key = cv2.waitKey(1)
     if key == ord('Q') or key == ord('q') or key == 27:
     # Exit the loop.

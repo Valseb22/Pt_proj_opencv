@@ -2,9 +2,11 @@ import cv2
 import time
 import mediapipe as mp
 
-
+wCam, hCam = 1180, 720
 source=2
 video_cap = cv2.VideoCapture(source)
+video_cap.set(3, wCam)
+video_cap.set(4, hCam)
 pTime=0
 cTime=0
 mpHands = mp.solutions.hands

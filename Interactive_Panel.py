@@ -48,8 +48,8 @@ video_cap = cv2.VideoCapture(source)
 
 
 
-HSV_max=(72, 160, 102)
-HSV_min=(42, 84, 30)
+HSV_max=(69, 189, 88)
+HSV_min=(42, 124, 6)
 while 1:
     has_frame, frame = video_cap.read()
     if not has_frame:

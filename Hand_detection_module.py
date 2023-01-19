@@ -14,14 +14,57 @@ class handDetector():
     self.mpDraw = mp.solutions.drawing_utils
 
 
-  def findHands(self, frame, draw = True):
+
+  def boxHands(self, frame, flipType = True, draw = True,box = True):
     frame_RGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     self.results = self.hands.process(frame_RGB)
+    allHands = []
+    h, w, c = frame.shape
     if self.results.multi_hand_landmarks:
-        for handlms in self.results.multi_hand_landmarks:
-          if draw:
-            self.mpDraw.draw_landmarks(frame, handlms, self.mpHands.HAND_CONNECTIONS)
-    return frame
+      for handType, handlms in zip(self.results.multi_handedness, self.results.multi_hand_landmarks):
+        myHand = {}
+        lmList = []
+        xList = []
+        yList = []
+        for id, lm in enumerate(handlms.landmark):
+          px, py, pz = int(lm.x * w), int(lm.y * h), int(lm.z * w)
+          lmList.append([px, py, pz])
+          xList.append(px)
+          yList.append(py)
+
+        #box
+        xmin, xmax = min(xList), max(xList)
+        ymin, ymax = min(yList), max(yList)
+        boxW, boxH = xmax-xmin, ymax - ymin
+        bbox = xmin, ymin, boxW, boxH
+        cx, cy = bbox[0] + (bbox[2] // 2), \
+                bbox[1] + (bbox[3] // 2)
+
+        myHand["lmList"] = lmList
+        myHand["bbox"] = bbox
+        myHand["center"] = (cx,cy)
+
+        if flipType:
+          if handType.classification[0].label == "Right":
+            myHand["type"] = "Left"
+          else:
+            myHand["type"] = "Right"
+        else:
+          myHand["type"] = handType.classification[0].label
+        allHands.append(myHand)
+
+        #drawing box
+        if draw:
+          self.mpDraw.draw_landmarks(frame, handlms, self.mpHands.HAND_CONNECTIONS)
+          if box:
+            cv2.rectangle(frame, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + bbox[2] + 20, bbox[1] + bbox[3] + 20), (255, 0, 255), 3)
+            cv2.putText(frame, myHand["type"], (bbox[0] - 30, bbox[1] - 30), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 255), 2)
+
+    if draw:       
+      return allHands, frame
+    else:
+      return allHands
+
 
 
   def findPosition(self, frame, handNbr=0, draw= True):
