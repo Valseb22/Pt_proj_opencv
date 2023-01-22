@@ -11,12 +11,14 @@ Alows the user to evaluate the FPS
 
 I needed to find the hsv value for a particular color. 
 
-![Texte alternatif](/images/find_hsv.png "test")
+![Texte alternatif](/images/find_hsv.png)
 
 # Interactive_Panel 
 
 The objective is to find the extremity of a pen and then put a green spot on the place of the pen. 
 To find the good values for the pen extremity, I used the function Find_hsv_value.py
+
+![Texte alternatif](/images/interactive_panel.png)
 
 
 # Hand_detection
