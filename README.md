@@ -11,7 +11,7 @@ Alows the user to evaluate the FPS
 
 I needed to find the hsv value for a particular color. 
 
-![Texte alternatif](/images/find_hsv.png "test").
+[Texte alternatif](/images/find_hsv.png "test")
 
 # Interactive_Panel 
 
