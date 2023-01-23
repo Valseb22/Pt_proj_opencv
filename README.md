@@ -24,3 +24,7 @@ To find the good values for the pen extremity, I used the function Find_hsv_valu
 # Hand_detection
 
 First little project to uderstand the madiapipe's hand solution
+
+# Data_collection
+
+Script used to create a dataset for yolo 
