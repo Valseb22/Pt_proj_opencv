@@ -15,8 +15,11 @@ detector = hdm.handDetector(maxHands=1)
 offset = 20
 imgSize = 500
 
-folder = "data/Right"
-counter=0
+folder = "data/images"
+folder_lbl = "data/label"
+counterL=0
+counterR=0
+counterO=0
 while True:
     has_frame, frame = video_cap.read()
     if not has_frame:
@@ -46,7 +49,6 @@ while True:
             hGap = math.ceil((imgSize - hCal)/2)
             imgWhite[hGap:hCal+hGap , :] = imgResized 
 
-
         cv2.imshow("img cropped", imgCropped)
         cv2.imshow("img white", imgWhite)
     
@@ -60,7 +62,25 @@ while True:
     # Exit the loop.
         break   
     if key == ord('S') or key == ord('s'):
-        counter +=1
-        cv2.imwrite(f'{folder}/Image_{time.time()}.jpg',imgWhite)
-        print(counter)
+
+        [h,w,dim]=imgResized.shape
+        answ=input('type image? \n r:right \n l:left \n o:other %s\n')
+        if answ=='r':
+            counterR+=1
+            cv2.imwrite(f'{folder}/Image_right_{counterR}.jpg',imgWhite)
+            with open(f'{folder_lbl}/Image_right_{counterR}.txt', "w") as file:
+                file.write(f'0 0.5 0.5 {w/500} {h/500}')
+        elif answ=='l':
+            counterL+=1
+            cv2.imwrite(f'{folder}/Image_left_{counterL}.jpg',imgWhite)
+            with open(f'{folder_lbl}/Image_left_{counterL}.txt', "w") as file:
+                file.write(f'1 0.5 0.5 {w/500} {h/500}')
+        else:
+            counterO+=1
+            cv2.imwrite(f'{folder}/Image_other_{counterO}.jpg',imgWhite)
+            with open(f'{folder_lbl}/Image_other_{counterO}.txt', "w") as file:
+                file.write(f'2 0.5 0.5 {w/500} {h/500}')
+        print(f'nb images right: {counterR} \n nb images left:{counterL} \n nb images other: {counterO} \n')
+
+
 
