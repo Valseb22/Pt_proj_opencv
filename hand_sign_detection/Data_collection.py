@@ -4,7 +4,7 @@ import numpy as np
 import math
 import time
 
-wCam, hCam = 1180, 720
+wCam, hCam = 980, 620
 
 source = 2
 video_cap = cv2.VideoCapture(source)
@@ -25,7 +25,9 @@ while True:
     if not has_frame:
       break
 
-    hands, frame = detector.boxHands(frame, box=False)
+    #hands, frame = detector.boxHands(frame,box=False)
+    frame = cv2.flip(frame,1)
+    hands = detector.boxHands(frame,box=False,draw=False)
 
     if hands:
         hand = hands[0]
@@ -61,25 +63,29 @@ while True:
     if key == ord('Q') or key == ord('q') or key == 27:
     # Exit the loop.
         break   
-    if key == ord('S') or key == ord('s'):
+    if key == ord('R') or key == ord('r'):
 
         [h,w,dim]=imgResized.shape
-        answ=input('type image? \n r:right \n l:left \n o:other %s\n')
-        if answ=='r':
-            counterR+=1
-            cv2.imwrite(f'{folder}/Image_right_{counterR}.jpg',imgWhite)
-            with open(f'{folder_lbl}/Image_right_{counterR}.txt', "w") as file:
-                file.write(f'0 0.5 0.5 {w/500} {h/500}')
-        elif answ=='l':
-            counterL+=1
-            cv2.imwrite(f'{folder}/Image_left_{counterL}.jpg',imgWhite)
-            with open(f'{folder_lbl}/Image_left_{counterL}.txt', "w") as file:
-                file.write(f'1 0.5 0.5 {w/500} {h/500}')
-        else:
-            counterO+=1
-            cv2.imwrite(f'{folder}/Image_other_{counterO}.jpg',imgWhite)
-            with open(f'{folder_lbl}/Image_other_{counterO}.txt', "w") as file:
-                file.write(f'2 0.5 0.5 {w/500} {h/500}')
+        
+        counterR+=1
+        cv2.imwrite(f'{folder}/Image_right_{counterR}.jpg',imgWhite)
+        with open(f'{folder_lbl}/Image_right_{counterR}.txt', "w") as file:
+            file.write(f'0 0.5 0.5 {w/500} {h/500}')
+        print(f'nb images right: {counterR} \n nb images left:{counterL} \n nb images other: {counterO} \n')
+
+    if key == ord('L') or key == ord('l'):
+        
+        counterL+=1
+        cv2.imwrite(f'{folder}/Image_left_{counterL}.jpg',imgWhite)
+        with open(f'{folder_lbl}/Image_left_{counterL}.txt', "w") as file:
+            file.write(f'1 0.5 0.5 {w/500} {h/500}')
+        print(f'nb images right: {counterR} \n nb images left:{counterL} \n nb images other: {counterO} \n')
+
+    if key == ord('O') or key == ord('o'):
+        counterO+=1
+        cv2.imwrite(f'{folder}/Image_other_{counterO}.jpg',imgWhite)
+        with open(f'{folder_lbl}/Image_other_{counterO}.txt', "w") as file:
+            file.write(f'2 0.5 0.5 {w/500} {h/500}')
         print(f'nb images right: {counterR} \n nb images left:{counterL} \n nb images other: {counterO} \n')
 
 
