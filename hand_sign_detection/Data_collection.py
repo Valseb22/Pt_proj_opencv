@@ -15,11 +15,13 @@ detector = hdm.handDetector(maxHands=1)
 offset = 20
 imgSize = 500
 
+
 folder = "data/images"
 folder_lbl = "data/label"
 counterL=0
 counterR=0
 counterO=0
+print("to register images press:\n R ou r:right \n l or L: Left \n O or o: other\n")
 while True:
     has_frame, frame = video_cap.read()
     if not has_frame:
